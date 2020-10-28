@@ -1,0 +1,8 @@
+#ifndef stateMachine_included
+#define stateMachine_included
+
+void state_advance();
+void dimLight();
+void brightLight();
+char toggle_red();
+#endif // included
