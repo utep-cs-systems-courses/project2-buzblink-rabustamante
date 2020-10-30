@@ -4,7 +4,7 @@
 
 
 
-/* Switch on P1 (S2) */
+/* Switches on P2 (S2) */
 
 void
 

@@ -13,15 +13,15 @@ switch_update_interrupt_sense()
 
 {
 
-  char p1val = P2IN;
+  char p2val = P2IN;
 
   /* update switch interrupt to detect changes from current buttons */
 
-  P2IES |= (p1val & SWITCHES);/* if switch up, sense down */
+  P2IES |= (p2val & SWITCHES);/* if switch up, sense down */
 
-  P2IES &= (p1val | ~SWITCHES);/* if switch down, sense up */
+  P2IES &= (p2val | ~SWITCHES);/* if switch down, sense up */
 
-  return p1val;
+  return p2val;
 
 }
 
@@ -47,20 +47,37 @@ switch_init()/* setup switch */
 }
 
 void
-
 switch_interrupt_handler()
 
 {
 
-  char p1val = switch_update_interrupt_sense();
+  char p2val = switch_update_interrupt_sense();
   char state =0;
-  if(SWITCHES){
-     switch_state_down =~(switch_state_down);
-   
-    switch_state_changed =1;
-
-    led_update();
-  }
-}
-
+  if(SWITCHES){ 
+    switch_state_down = (p2val & SW1)|0; /* 0 when SW1 is up */
+    
+    switch_state_down =(p2val & SW2)|0; /* 0 when SW1 is up */
+    switch_state_down = (p2val& SW3)|0;
+   switch_state_changed =1;
  
+    led_update();
+     }
+    /* case 2:
+      switch_state_down = (p2val & SW3);
+      switch_state_changed =1;
+      led_update();
+      state= 3;
+    case 3:
+      switch_state_down = (p2val & SW4);
+      switch_state_changed =1;
+      led_update();
+      state =0;
+      break;
+    default:
+      switch_state_down = (p2val & SW4);
+      switch_state_changed =1;
+      led_update();
+      led_update();
+      state =0;
+      }*/
+  }
