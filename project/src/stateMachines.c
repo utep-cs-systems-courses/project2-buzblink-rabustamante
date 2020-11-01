@@ -6,7 +6,7 @@
 
 #include "buzzer.h"
 
-extern int sb;
+#include "switches.h"
 
 char toggle_red()/* always toggle! */
 
@@ -37,36 +37,32 @@ char toggle_green(){
   led_update();
 
 }
+char toggle_red_green(){
 
+  static char state =0;
 
+  switch(state){
 
-void state_advance()/* alternate between toggling red & green */
+  case 0:
 
-{
+    toggle_green();
 
-  /* char changed = 0;  
+    state =1;
+    break;
 
-  static enum {R=0, G=1} color = G;
+  case 1:
+    toggle_red();
+    state =0;
 
-  switch (color) {
+    break;
 
-  case R: changed = toggle_red(); color = G; break;
-
-  case G: changed = toggle_green(); color = R; break;
-
+  default:
+    state= 0;
+    break;
   }
 
-  led_changed = changed;
-
-  led_update();*/
-
-
-
-  /* led_changed = toggle_red();
-
-     led_update();*/
-
 }
+
 
 void dimLight()
 
@@ -191,13 +187,11 @@ void buzzer_advance()
 
 {
 
-
-
-  int sb;
+  char buzzer_state;
 
   static int x  = 500;
 
-  if(sb){
+  if(buzzer_state){
 
     x+=225;
 
@@ -219,23 +213,38 @@ void main_state_advance()
 
 {
 
+
   static char  state =0;
+
+
 
   switch(state){
 
+
+
   case 0:
+
+
 
   case 1:
 
+
+
     go_up();
+
+
 
     state++;
 
+
     break;
+
 
   case 2:
 
+
     go_down();
+
 
     state =0;
 
@@ -244,6 +253,4 @@ void main_state_advance()
     break;
 
   }
-
 }
-       
