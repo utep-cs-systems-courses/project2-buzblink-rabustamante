@@ -3,7 +3,7 @@
 #include "stateMachines.h"
 #include "led.h"
 
-
+ 
 
 char switch_state_down1,switch_state_down2,switch_state_down3,switch_state_down4, switch_state_changed; /* effectively boolean */
 static char
@@ -50,29 +50,33 @@ switch_interrupt_handler()
 
 {
   char p2val = switch_update_interrupt_sense();
-  toggle_red_green();
+  
   switch_state_down1 = (p2val & SW1) ? 0:1;
   switch_state_down2 = (p2val & SW2) ? 0:1;
   switch_state_down3 = (p2val & SW3) ? 0:1;
-  switch_state_down4 = (p2val & SW4) ? 0:1;
+  switch_state_down4 = (p2val & SW4) ? 1:0;
   
   if((switch_state_down1)){
+
     toggle_red();
+    led_update();
     switch_state_changed =0;
   }
   if( switch_state_down2){
-    toggle_green();
-    dimLight();
+    buzzer_advance();
     switch_state_changed =1;
      
 
     }
   if(switch_state_down3){
+    
+    toggle_green();
     switch_state_changed =2;
 
     }
   if(switch_state_down4){
-    switch_state_changed=3;
+    dimLight();
+    switch_state_changed =3;
 
-   }
+  }
 }
