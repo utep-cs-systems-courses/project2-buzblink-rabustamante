@@ -17,7 +17,8 @@ int main(void) {
   enableWDTInterrupts();/* enable periodic interrupt */
 
   buzzer_init();
-
+  
+  switch_init();
 
 
   or_sr(0x18);/* CPU off, GIE on */
