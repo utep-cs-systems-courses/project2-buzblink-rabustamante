@@ -63,8 +63,7 @@ char toggle_red_green(){
 
 }
 
-
-void dimLight()
+void  dimLight()
 
 {
 
@@ -189,7 +188,8 @@ void buzzer_advance()
 
   char buzzer_state;
 
-  static int x  = 500;
+  /* frequency we want*/
+  static int x  = 500; 
 
   if(buzzer_state){
 
@@ -203,6 +203,7 @@ void buzzer_advance()
 
   }
 
+  /* coverts for buzzer set period*/
   short cycle = 2000000/x;
 
   buzzer_set_period( cycle);
